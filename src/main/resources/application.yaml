@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: financesgold
+
+  datasource:
+    postgres:
+      url: jdbc:postgresql://localhost:5432/financesgold
+      driver-class-name: org.postgresql.Driver
+      username: postgres
+      password: postgres
+    h2:
+      url: jdbc:h2:mem:testdb
+      driver-class-name: org.h2.Driver
+      username: sa
+      password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
+
+  config:
+    activate:
+      on-profile: dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: ${spring.datasource.postgres.url}
+    username: ${spring.datasource.postgres.username}
+    password: ${spring.datasource.postgres.password}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: ${spring.datasource.postgres.url}
+    username: ${spring.datasource.postgres.username}
+    password: ${spring.datasource.postgres.password}
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: ${spring.datasource.h2.url}
+    username: ${spring.datasource.h2.username}
+    password: ${spring.datasource.h2.password}
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
