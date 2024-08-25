@@ -1,0 +1,23 @@
+# .lefthook/lefthook.yml
+
+# Configura o hook de pre-commit
+pre-commit:
+  parallel: true
+  commands:
+    - mvn spotless:check
+    - mvn test
+
+# Configura o hook de commit-msg
+commit-msg:
+  parallel: true
+  commands:
+    # Verifica a mensagem de commit com Commitlint
+    - npx --no-install commitlint --edit $1
+
+# Configura o hook de pre-push
+pre-push:
+  parallel: true
+  commands:
+    # (Opcional) Execute comandos antes de um push, como testes adicionais
+    - mvn test
+    - mvn verify
