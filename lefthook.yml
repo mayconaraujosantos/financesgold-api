@@ -4,20 +4,25 @@
 pre-commit:
   parallel: true
   commands:
-    - mvn spotless:check
-    - mvn test
+    spotless-check:
+      run: mvn spotless:check
+    spotless-fix:
+      run: mvn spotless:apply
+    maven-test:
+      run: mvn test
 
 # Configura o hook de commit-msg
 commit-msg:
   parallel: true
   commands:
-    # Verifica a mensagem de commit com Commitlint
-    - npx --no-install commitlint --edit $1
+    verify-commitlint:
+      run: npx --no-install commitlint --edit $1
 
 # Configura o hook de pre-push
 pre-push:
   parallel: true
   commands:
-    # (Opcional) Execute comandos antes de um push, como testes adicionais
-    - mvn test
-    - mvn verify
+    test:
+      run: mvn test
+    verify:
+      run: mvn verify
