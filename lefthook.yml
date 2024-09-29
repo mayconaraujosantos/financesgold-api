@@ -6,10 +6,6 @@ pre-commit:
   commands:
     spotless-check:
       run: mvn spotless:check
-    spotless-fix:
-      run: mvn spotless:apply
-    maven-test:
-      run: mvn test
 
 # Configura o hook de commit-msg
 commit-msg:
