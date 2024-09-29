@@ -19,6 +19,18 @@ spring:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+build:
+  version: "1.0.0"
+springdoc:
+  pathsToMatch: /**
+  swagger-ui:
+    enabled: true
+    tagsSorter: alpha
+    defaultModelExpandDepth: 2
+    defaultModelsExpandDepth: 2
+tag:
+  programa: "FinancesGold"
+
   config:
     activate:
       on-profile: dev
@@ -29,9 +41,9 @@ spring:
     activate:
       on-profile: dev
   datasource:
-    url: ${spring.datasource.postgres.url}
-    username: ${spring.datasource.postgres.username}
-    password: ${spring.datasource.postgres.password}
+    url: ${spring.datasource.h2.url}
+    username: ${spring.datasource.h2.username}
+    password: ${spring.datasource.h2.password}
 
 ---
 spring:
