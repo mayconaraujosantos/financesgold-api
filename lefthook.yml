@@ -18,7 +18,9 @@ commit-msg:
 pre-push:
   parallel: true
   commands:
-    test:
-      run: mvn test
     verify:
       run: mvn verify
+    spotless-fix:
+      run: mvn spotless:apply
+    test:
+      run: mvn test
