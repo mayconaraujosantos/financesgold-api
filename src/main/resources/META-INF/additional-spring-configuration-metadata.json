@@ -1,0 +1,43 @@
+{"properties": [
+  {
+    "name": "spring.datasource.postgres.url",
+    "type": "java.lang.String",
+    
+    "description": "A description for 'spring.datasource.postgres.url'"
+  },
+  {
+    "name": "spring.datasource.postgres.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.postgres.driver-class-name'"
+  },
+  {
+    "name": "spring.datasource.postgres.username",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.postgres.username'"
+  },
+  {
+    "name": "spring.datasource.postgres.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.postgres.password'"
+  },
+  {
+    "name": "spring.datasource.h2.url",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.h2.url'"
+  },
+  {
+    "name": "spring.datasource.h2.driver-class-name",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.h2.driver-class-name'"
+  },
+  {
+    "name": "spring.datasource.h2.username",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.h2.username'"
+  },
+  {
+    "name": "spring.datasource.h2.password",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.h2.password'"
+  }
+]}
