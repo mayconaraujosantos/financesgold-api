@@ -13,13 +13,12 @@ spring:
       driver-class-name: org.h2.Driver
       username: sa
       password: password
-      console:
-        enabled: true
+      console.enabled: true
 
   jpa:
     hibernate:
       ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: ${H2_DIALECT}
 
 build:
   version: "1.0.0"
