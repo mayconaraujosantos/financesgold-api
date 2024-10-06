@@ -2,7 +2,6 @@
   {
     "name": "spring.datasource.postgres.url",
     "type": "java.lang.String",
-    
     "description": "A description for 'spring.datasource.postgres.url'"
   },
   {
@@ -39,5 +38,25 @@
     "name": "spring.datasource.h2.password",
     "type": "java.lang.String",
     "description": "A description for 'spring.datasource.h2.password'"
+  },
+  {
+    "name": "build.version",
+    "type": "java.lang.String",
+    "description": "A description for 'build.version'"
+  },
+  {
+    "name": "tag.programa",
+    "type": "java.lang.String",
+    "description": "A description for 'tag.programa'"
+  },
+  {
+    "name": "tag.config.activate.on-profile",
+    "type": "java.lang.String",
+    "description": "A description for 'tag.config.activate.on-profile'"
+  },
+  {
+    "name": "spring.datasource.h2.console.enabled",
+    "type": "java.lang.String",
+    "description": "A description for 'spring.datasource.h2.console.enabled'"
   }
 ]}
