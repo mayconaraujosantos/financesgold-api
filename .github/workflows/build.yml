@@ -6,7 +6,7 @@ on:
       - develop
   pull_request:
     types: [opened, synchronize, reopened]
-  workflow_dispatch: 
+  workflow_dispatch:
 jobs:
   build:
     name: Build and analyze
@@ -36,4 +36,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mayconaraujosantos_financesgold-api
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mayconaraujosantos_financesgold-api -Dsonar.organization=mayconaraujosantos -U
