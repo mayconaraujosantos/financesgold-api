@@ -11,6 +11,7 @@ import com.api.financesgold.annotation.UnitTest;
 import com.api.financesgold.application.port.UserRepositoryPort;
 import com.api.financesgold.application.usecases.users.RegisterUserUseCase;
 import com.api.financesgold.domain.entity.User;
+import com.api.financesgold.domain.services.ValidationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,8 @@ public class RegisterUserUseCaseTest {
   @BeforeEach
   void setUp() {
     userRepository = Mockito.mock(UserRepositoryPort.class);
-    registerUserUseCase = new RegisterUserUseCase(userRepository);
+    ValidationService validationService = new ValidationService();
+    registerUserUseCase = new RegisterUserUseCase(userRepository, validationService);
   }
 
   @Test
