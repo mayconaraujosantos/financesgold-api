@@ -43,7 +43,7 @@ jobs:
         needs: [ build ]
         runs-on: ubuntu-latest
         environment:
-            name: Development
+            name: develop
             url: "https://financesgold-api-production.up.railway.app"
         steps:
             -   name: Deploy
@@ -55,7 +55,7 @@ jobs:
         needs: [ build ]
         runs-on: ubuntu-latest
         environment:
-            name: Staging
+            name: staging
             url: "https://financesgold-api-production.up.railway.app"
         steps:
             -   name: Deploy
@@ -66,7 +66,7 @@ jobs:
         needs: [ DeployStaging ]
         runs-on: ubuntu-latest
         environment:
-            name: Production
+            name: production
             url: "https://financesgold-api-production.up.railway.app"
         steps:
             -   name: Deploy
