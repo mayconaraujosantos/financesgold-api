@@ -1,39 +1,73 @@
 name: SonarQube Cloud
 on:
-  push:
-    branches:
-      - main
-      - develop
-  pull_request:
-    types: [opened, synchronize, reopened]
-  workflow_dispatch:
+    push:
+        branches:
+            - main
+            - develop
+    pull_request:
+        types: [ opened, synchronize, reopened ]
+    workflow_dispatch:
 jobs:
-  build:
-    name: Build and analyze
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
-      - name: Cache SonarQube Cloud packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
-      - name: Build and analyze
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=mayconaraujosantos_financesgold-api -Dsonar.organization=mayconaraujosantos -U
+    build:
+        name: Build and analyze
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v4
+                with:
+                    fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+            -   name: Set up JDK 17
+                uses: actions/setup-java@v4
+                with:
+                    java-version: 17
+                    distribution: 'zulu' # Alternative distribution options are available.
+            -   name: Cache SonarQube Cloud packages
+                uses: actions/cache@v4
+                with:
+                    path: ~/.sonar/cache
+                    key: ${{ runner.os }}-sonar
+                    restore-keys: ${{ runner.os }}-sonar
+            -   name: Cache Maven packages
+                uses: actions/cache@v4
+                with:
+                    path: ~/.m2
+                    key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+                    restore-keys: ${{ runner.os }}-m2
+            -   name: Build and analyze
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                run: mvn clean verify sonar:sonar -X
+    DeployDev:
+        name: Deploy to Dev
+        if: github.event_name == 'pull_request'
+        needs: [ build ]
+        runs-on: ubuntu-latest
+        environment:
+            name: Development
+            url: "https://financesgold-api-production.up.railway.app"
+        steps:
+            -   name: Deploy
+                run: echo I am deploying!
+
+    DeployStaging:
+        name: Deploy to Staging
+        if: github.event.ref == 'refs/heads/main'
+        needs: [ build ]
+        runs-on: ubuntu-latest
+        environment:
+            name: Staging
+            url: "https://financesgold-api-production.up.railway.app"
+        steps:
+            -   name: Deploy
+                run: echo I am deploying!
+
+    DeployProd:
+        name: Deploy to Production
+        needs: [ DeployStaging ]
+        runs-on: ubuntu-latest
+        environment:
+            name: Production
+            url: "https://financesgold-api-production.up.railway.app"
+        steps:
+            -   name: Deploy
+                run: echo I am deploying!
