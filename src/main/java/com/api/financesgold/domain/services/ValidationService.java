@@ -12,7 +12,7 @@ public class ValidationService {
 
   public void validateEmail(String email) {
     if (email == null || !EMAIL_PATTERN.matcher(email).matches()) {
-      throw new InvalidEmailException("O formato do email e invalido");
+      throw new InvalidEmailException("O formato do email é inválido");
     }
   }
 
