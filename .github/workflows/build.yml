@@ -1,72 +1,67 @@
-name: SonarQube Cloud
+name: CI/CD Pipeline with Git Flow and SonarQube
+
 on:
-    push:
-        branches:
-            - main
-    pull_request:
-        types: [ opened, synchronize, reopened ]
-    workflow_dispatch:
+  push:
+    branches:
+      - main
+      - release/*
+      - hotfix/*
+  pull_request:
+    branches:
+      - main
+      - feature/*
+
 jobs:
-    build:
-        name: Build and analyze
-        runs-on: ubuntu-latest
-        steps:
-            -   uses: actions/checkout@v4
-                with:
-                    fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-            -   name: Set up JDK 17
-                uses: actions/setup-java@v4
-                with:
-                    java-version: 17
-                    distribution: 'zulu' # Alternative distribution options are available.
-            -   name: Cache SonarQube Cloud packages
-                uses: actions/cache@v4
-                with:
-                    path: ~/.sonar/cache
-                    key: ${{ runner.os }}-sonar
-                    restore-keys: ${{ runner.os }}-sonar
-            -   name: Cache Maven packages
-                uses: actions/cache@v4
-                with:
-                    path: ~/.m2
-                    key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-                    restore-keys: ${{ runner.os }}-m2
-            -   name: Build and analyze
-                env:
-                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                run: mvn clean verify sonar:sonar
-    DeployDev:
-        name: Deploy to Dev
-        if: github.event_name == 'pull_request'
-        needs: [ build ]
-        runs-on: ubuntu-latest
-        environment:
-            name: develop
-            url: "https://financesgold-api-production.up.railway.app"
-        steps:
-            -   name: Deploy
-                run: echo I am deploying!
+  build-and-analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      -   name: Cache SonarQube Cloud packages
+          uses: actions/cache@v4
+          with:
+              path: ~/.sonar/cache
+              key: ${{ runner.os }}-sonar
+              restore-keys: ${{ runner.os }}-sonar
+      -   name: Cache Maven packages
+          uses: actions/cache@v4
+          with:
+              path: ~/.m2
+              key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+              restore-keys: ${{ runner.os }}-m2
+      - name: Build and Analyze with SonarQube
+        run: mvn clean verify sonar:sonar -Dsonar.organization=mayconaraujosantos \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
-    DeployStaging:
-        name: Deploy to Staging
-        if: github.event.ref == 'refs/heads/main'
-        needs: [ build ]
-        runs-on: ubuntu-latest
-        environment:
-            name: staging
-            url: "https://financesgold-api-production.up.railway.app"
-        steps:
-            -   name: Deploy
-                run: echo I am deploying!
+  deploy-to-dev:
+    needs: build-and-analyze
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/release/*'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Deploy to Dev
+        run: mvn deploy -Dspring.profiles.active=dev
 
-    DeployProd:
-        name: Deploy to Production
-        needs: [ DeployStaging ]
-        runs-on: ubuntu-latest
-        environment:
-            name: production
-            url: "https://financesgold-api-production.up.railway.app"
-        steps:
-            -   name: Deploy
-                run: echo I am deploying!
+  deploy-to-prod:
+    needs: deploy-to-dev
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/release/*'
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Deploy to Prod
+        run: mvn deploy -Dspring.profiles.active=prod
