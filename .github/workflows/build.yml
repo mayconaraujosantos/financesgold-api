@@ -35,7 +35,6 @@ jobs:
               restore-keys: ${{ runner.os }}-m2
       - name: Build and Analyze with SonarQube
         run: mvn clean verify sonar:sonar -Dsonar.organization=mayconaraujosantos \
-          -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=${{ secrets.SONAR_TOKEN }}
 
   deploy-to-dev:
