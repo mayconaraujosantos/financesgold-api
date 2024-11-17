@@ -3,6 +3,7 @@ package com.api.financesgold.unit.application.usecases.user;
 import static com.api.financesgold.utils.Constants.EMAIL;
 import static com.api.financesgold.utils.Constants.PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,6 +12,7 @@ import com.api.financesgold.annotation.UnitTest;
 import com.api.financesgold.application.port.UserRepositoryPort;
 import com.api.financesgold.application.usecases.users.RegisterUserUseCase;
 import com.api.financesgold.domain.entity.User;
+import com.api.financesgold.domain.exception.InvalidEmailException;
 import com.api.financesgold.domain.services.ValidationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,5 +45,17 @@ public class RegisterUserUseCaseTest {
     assertThat(result).isNotNull();
     assertThat(result.getEmail()).isEqualTo(EMAIL);
     verify(userRepository, times(1)).save(user);
+  }
+
+  @Test
+  @DisplayName("Should throw exception for invalid email")
+  void shouldThrowExceptionForInvalidEmail() {
+    // Arrange
+    User user = new User("invalid-email", "password123");
+
+    // Act & Assert
+    assertThatThrownBy(() -> registerUserUseCase.execute(user))
+        .isInstanceOf(InvalidEmailException.class)
+        .hasMessage("O formato do email é inválido");
   }
 }
