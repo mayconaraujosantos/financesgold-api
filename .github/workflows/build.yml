@@ -46,6 +46,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/release/*'
+    environment:
+        name: develop
+        url: "https://financesgold-api-production.up.railway.app"
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
@@ -60,6 +63,9 @@ jobs:
     needs: deploy-to-dev
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/release/*'
+    environment:
+        name: production
+        url: "https://financesgold-api-production.up.railway.app"
     steps:
       - uses: actions/checkout@v4
       - name: Set up JDK 17
