@@ -11,15 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class ObjectMapperConfigTest {
+class ObjectMapperConfigTest {
   @Autowired private ObjectMapper objectMapper;
 
   @Test
-  public void shouldSerializeLocalDateTimeCorrectly() throws JsonProcessingException {
+  void shouldSerializeLocalDateTimeCorrectly() throws JsonProcessingException {
     LocalDateTime now = LocalDateTime.now();
     String json = objectMapper.writeValueAsString(now);
 
-    // Verifica se o JSON gerado está no formato esperado
     assertEquals(
         "\"" + now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "\"", json);
   }
