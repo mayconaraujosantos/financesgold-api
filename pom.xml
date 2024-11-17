@@ -30,6 +30,7 @@
     <properties>
         <java.version>17</java.version>
         <sonar.organization>mayconaraujosantos</sonar.organization>
+        <sonar.projectKey>mayconaraujosantos_financesgold-api</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
     <dependencies>
