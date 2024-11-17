@@ -1,4 +1,4 @@
-package com.api.financesgold.unit.application.usecases.user;
+package com.api.financesgold.application.usecases.user;
 
 import static com.api.financesgold.utils.Constants.EMAIL;
 import static com.api.financesgold.utils.Constants.PASSWORD;
