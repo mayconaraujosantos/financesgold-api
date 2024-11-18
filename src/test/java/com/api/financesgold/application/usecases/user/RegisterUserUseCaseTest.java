@@ -1,7 +1,7 @@
 package com.api.financesgold.application.usecases.user;
 
-import static com.api.financesgold.utils.Constants.EMAIL;
-import static com.api.financesgold.utils.Constants.PASSWORD;
+import static com.api.financesgold.infrastructure.utils.Constants.EMAIL;
+import static com.api.financesgold.infrastructure.utils.Constants.HASHED_PASSWORD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.times;
@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 @UnitTest
-public class RegisterUserUseCaseTest {
+class RegisterUserUseCaseTest {
   private UserRepositoryPort userRepository;
   private RegisterUserUseCase registerUserUseCase;
 
@@ -35,7 +35,7 @@ public class RegisterUserUseCaseTest {
   @DisplayName("Should register user successfully")
   void shouldRegisterUserSuccessfully() {
     // Arrange
-    User user = new User(EMAIL, PASSWORD, EMAIL);
+    User user = new User(EMAIL, HASHED_PASSWORD, EMAIL);
 
     when(userRepository.existsByEmail(user.getEmail())).thenReturn(false);
     when(userRepository.save(user)).thenReturn(user);
