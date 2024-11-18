@@ -13,6 +13,7 @@ import com.api.financesgold.application.port.UserRepositoryPort;
 import com.api.financesgold.application.usecases.users.RegisterUserUseCase;
 import com.api.financesgold.domain.entity.User;
 import com.api.financesgold.domain.exception.InvalidEmailException;
+import com.api.financesgold.domain.exception.UserAlreadyExistsException;
 import com.api.financesgold.domain.exception.WeakPasswordException;
 import com.api.financesgold.domain.services.ValidationService;
 import com.api.financesgold.utils.UserUtils;
@@ -70,5 +71,19 @@ class RegisterUserUseCaseTest {
     assertThatThrownBy(() -> registerUserUseCase.execute(user))
         .isInstanceOf(WeakPasswordException.class)
         .hasMessage("A senha deve ter no minimo 8 caracteres");
+  }
+
+  @Test
+  @DisplayName("Should throw exception for existing email")
+  void shouldThrowExceptionForExistingEmail() {
+    // Arrange
+    User user = new User("email@gmail.com", "password123");
+
+    when(userRepository.existsByEmail(user.getEmail())).thenReturn(true);
+
+    // Act & Assert
+    assertThatThrownBy(() -> registerUserUseCase.execute(user))
+        .isInstanceOf(UserAlreadyExistsException.class)
+        .hasMessage("O email ja esta registrado");
   }
 }
