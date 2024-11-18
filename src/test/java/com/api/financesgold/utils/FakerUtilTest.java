@@ -1,9 +1,11 @@
 package com.api.financesgold.utils;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.api.financesgold.annotation.UnitTest;
 import com.api.financesgold.domain.entity.User;
+import com.api.financesgold.domain.exception.WeakPasswordException;
 import org.junit.jupiter.api.Test;
 
 @UnitTest
@@ -19,5 +21,10 @@ class FakerUtilTest {
     // Verifica se os valores gerados são válidos
     assertThat(user.getEmail()).isNotEmpty().contains("@");
     assertThat(user.getPassword()).isNotEmpty().hasSize(12);
+  }
+
+  @Test
+  void shouldThrowExceptionForShortPassword() {
+    assertThrows(WeakPasswordException.class, () -> FakerUtil.generatePassword(7));
   }
 }
