@@ -51,7 +51,6 @@ public class SecurityConfig {
                     .anyRequest()
                     .authenticated())
         .headers(headers -> headers.frameOptions(FrameOptionsConfig::disable));
-    // .apply(securityConfigurerAdapter());
     return http.build();
   }
 }
