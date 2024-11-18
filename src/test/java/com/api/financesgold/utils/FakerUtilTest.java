@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.api.financesgold.annotation.UnitTest;
 import com.api.financesgold.domain.entity.User;
 import com.api.financesgold.domain.exception.WeakPasswordException;
+import com.api.financesgold.infrastructure.utils.FakerUtil;
 import org.junit.jupiter.api.Test;
 
 @UnitTest

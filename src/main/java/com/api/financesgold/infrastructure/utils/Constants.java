@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public class Constants {
 
-  public static final String HASHED_PASSWORD = "12345678";
+  public static final String HASHED_PASSWORD = FakerUtil.generatePassword(12);
   public static final String EMAIL = "valid@example.com";
   public static final String USERNAME = "username";
 
