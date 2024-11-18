@@ -13,7 +13,9 @@ import com.api.financesgold.application.port.UserRepositoryPort;
 import com.api.financesgold.application.usecases.users.RegisterUserUseCase;
 import com.api.financesgold.domain.entity.User;
 import com.api.financesgold.domain.exception.InvalidEmailException;
+import com.api.financesgold.domain.exception.WeakPasswordException;
 import com.api.financesgold.domain.services.ValidationService;
+import com.api.financesgold.utils.UserUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,5 +59,16 @@ class RegisterUserUseCaseTest {
     assertThatThrownBy(() -> registerUserUseCase.execute(user))
         .isInstanceOf(InvalidEmailException.class)
         .hasMessage("O formato do email é inválido");
+  }
+
+  @Test
+  @DisplayName("Should throw exception for weak password")
+  void shouldThrowExceptionForWeakPassword() {
+    var user = UserUtils.createUserValid();
+    user.setPassword("weak");
+    // Act & Assert
+    assertThatThrownBy(() -> registerUserUseCase.execute(user))
+        .isInstanceOf(WeakPasswordException.class)
+        .hasMessage("A senha deve ter no minimo 8 caracteres");
   }
 }
