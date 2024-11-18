@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.api.financesgold.utils.UserUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,5 +34,20 @@ public class UsuarioRepositoryAdapterTest {
     // Assert
     assertThat(result).isTrue();
     verify(usuarioJpaRepository, times(1)).existsByEmail(email);
+  }
+
+  @Test
+  @DisplayName("Should call save on JpaRepository")
+  void shouldCallSaveOnJpaRepository() {
+    var savedUser = UserUtils.createUserValid();
+    when(usuarioJpaRepository.save(savedUser)).thenReturn(savedUser);
+
+    // Act
+    var result = usuarioRepositoryAdapter.save(savedUser);
+
+    // Assert
+    assertThat(result).isNotNull();
+    assertThat(result.getEmail()).isEqualTo(EMAIL);
+    verify(usuarioJpaRepository, times(1)).save(savedUser);
   }
 }
