@@ -45,11 +45,11 @@ public class Constants {
 
   public static final String H2_CONSOLE = "/h2-console/**";
   // Routes SwaggerDOC API
-  public static final String[] SWAGGER_OPEN_API = {
+  protected static final String[] SWAGGER_OPEN_API = {
     "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**", "/v2/api-docs",
   };
 
-  public static final String[] ROUTES = {
+  protected static final String[] ROUTES = {
     "/", H2_CONSOLE, Arrays.asList(SWAGGER_OPEN_API).toString(), AUTH_REGISTER, AUTH_LOGIN, "/**"
   };
 
