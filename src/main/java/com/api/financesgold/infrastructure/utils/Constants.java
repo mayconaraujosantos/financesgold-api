@@ -3,6 +3,11 @@ package com.api.financesgold.infrastructure.utils;
 import java.util.Arrays;
 
 public class Constants {
+
+  public static final String HASHED_PASSWORD = "12345678";
+  public static final String EMAIL = "valid@example.com";
+  public static final String USERNAME = "username";
+
   public static final String JWT_SECRET = "financesgold";
   public static final String JWT_TOKEN_PREFIX = "Bearer ";
   public static final String JWT_TOKEN_HEADER = "Authorization";
