@@ -27,7 +27,7 @@ public class RegisterUserUseCase {
 
     if (userRepositoryPort.existsByEmail(user.getEmail())) {
       LOGGER.warn("O email {} já está registrado", user.getEmail());
-      throw new UserAlreadyExistsException("O email ja esta registrado" + user.getEmail());
+      throw new UserAlreadyExistsException("O email ja esta registrado");
     }
     LOGGER.info("Salvando o usuário no repositório");
     var registeredUser = userRepositoryPort.save(user);
