@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ValidationService {
 
-  public static Pattern EMAIL_PATTERN = Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
+  public static final Pattern EMAIL_PATTERN = Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
 
   public void validateEmail(String email) {
     if (email == null || !EMAIL_PATTERN.matcher(email).matches()) {
