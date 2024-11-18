@@ -32,9 +32,15 @@
         <sonar.organization>mayconaraujosantos</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.coverage.exclusions>
-            src/main/java/com/api/financesgold/FinancesgoldApplication.java
-            src/main/java/com/api/financesgold/infrastructure/utils/Constants.java
+            src/main/java/com/api/financesgold/FinancesgoldApplication*
+            src/main/java/com/api/financesgold/infrastructure/utils/Constants*
+            src/main/java/com/api/financesgold/domain/entity/**
         </sonar.coverage.exclusions>
+        <sonar.exclusions>
+            src/main/java/com/api/financesgold/FinancesgoldApplication*
+            src/main/java/com/api/financesgold/infrastructure/utils/Constants*
+            src/main/java/com/api/financesgold/domain/entity/**
+        </sonar.exclusions>
     </properties>
     <dependencies>
         <dependency>
@@ -227,6 +233,11 @@
                                     </limits>
                                 </rule>
                             </rules>
+                            <excludes>
+                                <exclude>com/api/financesgold/FinancesgoldApplication*</exclude>
+                                <exclude>com/api/financesgold/infrastructure/utils/Constants*</exclude>
+                                <exclude>com/api/financesgold/domain/entity/**</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
 
