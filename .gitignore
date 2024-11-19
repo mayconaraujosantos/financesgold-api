@@ -37,3 +37,4 @@ build/
 node_modules/
 src/main/java/com/api/financesgold/application/usecases/.DS_Store
 src/main/java/com/api/financesgold/application/usecases/users/.DS_Store
+.env
