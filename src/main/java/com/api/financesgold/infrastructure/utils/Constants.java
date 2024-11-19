@@ -3,6 +3,11 @@ package com.api.financesgold.infrastructure.utils;
 import java.util.Arrays;
 
 public class Constants {
+
+  public static final String HASHED_PASSWORD = FakerUtil.generatePassword(12);
+  public static final String EMAIL = "valid@example.com";
+  public static final String USERNAME = "username";
+
   public static final String JWT_SECRET = "financesgold";
   public static final String JWT_TOKEN_PREFIX = "Bearer ";
   public static final String JWT_TOKEN_HEADER = "Authorization";
@@ -10,10 +15,7 @@ public class Constants {
   public static final String JWT_TOKEN_AUDIENCE = "financesgold";
 
   public static final String EMAIL_PATTERN =
-      "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-  public static final String PASSWORD_PATTERN =
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
-
+      "\\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\\b";
   public static final String ROLE_USER = "ROLE_USER";
   public static final String ROLE_ADMIN = "ROLE_ADMIN";
 
@@ -45,11 +47,11 @@ public class Constants {
 
   public static final String H2_CONSOLE = "/h2-console/**";
   // Routes SwaggerDOC API
-  public static final String[] SWAGGER_OPEN_API = {
+  protected static final String[] SWAGGER_OPEN_API = {
     "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**", "/v2/api-docs",
   };
 
-  public static final String[] ROUTES = {
+  protected static final String[] ROUTES = {
     "/", H2_CONSOLE, Arrays.asList(SWAGGER_OPEN_API).toString(), AUTH_REGISTER, AUTH_LOGIN, "/**"
   };
 

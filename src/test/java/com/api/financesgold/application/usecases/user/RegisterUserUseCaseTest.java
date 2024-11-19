@@ -1,0 +1,89 @@
+package com.api.financesgold.application.usecases.user;
+
+import static com.api.financesgold.infrastructure.utils.Constants.EMAIL;
+import static com.api.financesgold.infrastructure.utils.Constants.HASHED_PASSWORD;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import com.api.financesgold.annotation.UnitTest;
+import com.api.financesgold.application.port.UserRepositoryPort;
+import com.api.financesgold.application.usecases.users.RegisterUserUseCase;
+import com.api.financesgold.domain.entity.User;
+import com.api.financesgold.domain.exception.InvalidEmailException;
+import com.api.financesgold.domain.exception.UserAlreadyExistsException;
+import com.api.financesgold.domain.exception.WeakPasswordException;
+import com.api.financesgold.domain.services.ValidationService;
+import com.api.financesgold.utils.UserUtils;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+@UnitTest
+class RegisterUserUseCaseTest {
+  private UserRepositoryPort userRepository;
+  private RegisterUserUseCase registerUserUseCase;
+
+  @BeforeEach
+  void setUp() {
+    userRepository = Mockito.mock(UserRepositoryPort.class);
+    ValidationService validationService = new ValidationService();
+    registerUserUseCase = new RegisterUserUseCase(userRepository, validationService);
+  }
+
+  @Test
+  @DisplayName("Should register user successfully")
+  void shouldRegisterUserSuccessfully() {
+    // Arrange
+    User user = new User(EMAIL, HASHED_PASSWORD, EMAIL);
+
+    when(userRepository.existsByEmail(user.getEmail())).thenReturn(false);
+    when(userRepository.save(user)).thenReturn(user);
+    // Act
+    User result = registerUserUseCase.execute(user);
+    // Assert
+    assertThat(result).isNotNull();
+    assertThat(result.getEmail()).isEqualTo(EMAIL);
+    verify(userRepository, times(1)).save(user);
+  }
+
+  @Test
+  @DisplayName("Should throw exception for invalid email")
+  void shouldThrowExceptionForInvalidEmail() {
+    // Arrange
+    User user = new User("invalid-email", "password123");
+
+    // Act & Assert
+    assertThatThrownBy(() -> registerUserUseCase.execute(user))
+        .isInstanceOf(InvalidEmailException.class)
+        .hasMessage("O formato do email é inválido");
+  }
+
+  @Test
+  @DisplayName("Should throw exception for weak password")
+  void shouldThrowExceptionForWeakPassword() {
+    var user = UserUtils.createUserValid();
+    user.setPassword("weak");
+    // Act & Assert
+    assertThatThrownBy(() -> registerUserUseCase.execute(user))
+        .isInstanceOf(WeakPasswordException.class)
+        .hasMessage("A senha deve ter no minimo 8 caracteres");
+  }
+
+  @Test
+  @DisplayName("Should throw exception for existing email")
+  void shouldThrowExceptionForExistingEmail() {
+    // Arrange
+    User user = new User("email@gmail.com", "password123");
+
+    when(userRepository.existsByEmail(user.getEmail())).thenReturn(true);
+
+    // Act & Assert
+    assertThatThrownBy(() -> registerUserUseCase.execute(user))
+        .isInstanceOf(UserAlreadyExistsException.class)
+        .hasMessage("O email ja esta registrado");
+  }
+}
