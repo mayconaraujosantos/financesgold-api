@@ -12,7 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class UsuarioRepositoryAdapterTest {
+class UsuarioRepositoryAdapterTest {
   private UsuarioJpaRepository usuarioJpaRepository;
   private UsuarioRepositoryAdapter usuarioRepositoryAdapter;
 
