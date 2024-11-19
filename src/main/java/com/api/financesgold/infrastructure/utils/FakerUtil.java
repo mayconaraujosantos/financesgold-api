@@ -1,16 +1,19 @@
 package com.api.financesgold.infrastructure.utils;
 
 import com.api.financesgold.domain.exception.WeakPasswordException;
-import java.util.Random;
+import java.security.SecureRandom;
 import java.util.UUID;
 
 public class FakerUtil {
-  private static final String EMAIL_DOMAINS[] = {"example.com", "test.com", "demo.com"};
+
+  private FakerUtil() {}
+
+  private static final String[] EMAIL_DOMAINS = {"example.com", "test.com", "demo.com"};
 
   // Gera um email dinâmico
   public static String generateEmail() {
     String username = "user" + UUID.randomUUID().toString().substring(0, 8);
-    String domain = EMAIL_DOMAINS[new Random().nextInt(EMAIL_DOMAINS.length)];
+    String domain = EMAIL_DOMAINS[new SecureRandom().nextInt(EMAIL_DOMAINS.length)];
     return username + "@" + domain;
   }
 
@@ -21,7 +24,7 @@ public class FakerUtil {
     }
     String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!";
     StringBuilder password = new StringBuilder();
-    Random random = new Random();
+    SecureRandom random = new SecureRandom();
 
     for (int i = 0; i < length; i++) {
       password.append(characters.charAt(random.nextInt(characters.length())));
