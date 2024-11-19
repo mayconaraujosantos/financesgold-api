@@ -16,9 +16,6 @@ public class Constants {
 
   public static final String EMAIL_PATTERN =
       "\\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\\b";
-  public static final String PASSWORD_PATTERN =
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
-
   public static final String ROLE_USER = "ROLE_USER";
   public static final String ROLE_ADMIN = "ROLE_ADMIN";
 
