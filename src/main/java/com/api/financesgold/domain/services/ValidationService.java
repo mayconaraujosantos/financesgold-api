@@ -2,16 +2,19 @@ package com.api.financesgold.domain.services;
 
 import com.api.financesgold.domain.exception.InvalidEmailException;
 import com.api.financesgold.domain.exception.WeakPasswordException;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ValidationService {
 
-  public static final Pattern EMAIL_PATTERN = Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$");
+  public static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
   public void validateEmail(String email) {
-    if (email == null || !EMAIL_PATTERN.matcher(email).matches()) {
+    Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+    Matcher matcher = pattern.matcher(email);
+    if (!matcher.matches()) {
       throw new InvalidEmailException("O formato do email é inválido");
     }
   }
